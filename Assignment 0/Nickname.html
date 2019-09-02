@@ -1,0 +1,11 @@
+<!-- an action must be handled server side, so the js here doesn't avoid that -->
+<form action="#" onsubmit="return HandleSubmit(this);">
+    <label for="dude">Input the dude</label>
+    <input id="dude" type="text">
+    <input type="submit">
+  </form>
+  
+  <!-- if we work outside of the form, it doesn't matter as much -->
+  <input type="text" id="Dude2">
+  <button id="button" onclick="HandlePress();">PRESS</button>
+  <p id="content">Content Here</p>
