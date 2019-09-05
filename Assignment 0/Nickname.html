@@ -1,11 +1,27 @@
-<!-- an action must be handled server side, so the js here doesn't avoid that -->
-<form action="#" onsubmit="return HandleSubmit(this);">
-    <label for="dude">Input the dude</label>
-    <input id="dude" type="text">
-    <input type="submit">
-  </form>
-  
-  <!-- if we work outside of the form, it doesn't matter as much -->
-  <input type="text" id="Dude2">
-  <button id="button" onclick="HandlePress();">PRESS</button>
-  <p id="content">Content Here</p>
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <script type ="text/javascript" src="Name.js"></script>
+      <title>Name Generator</title>
+      <link rel="stylesheet" href="stylesheet.css">
+    </head>
+      <body>
+        <!-- an action must be handled server side, so the js here doesn't avoid that -->
+        <form action="#" onsubmit="return HandleSubmit(this);">
+          <label for="name">Input your first name into the Name Generator!</label>
+          <br>
+          <input id="FName" type="text">
+          <input type="submit">
+        </form>
+        <p class="two">This will provide your new nickname utilizing your FIRST name.</p>
+        <br>
+        <!-- if we work outside of the form, it doesn't matter as much -->
+        <p>Input your last name into the Name Generator!</p>
+        <input type="text" id="LName">
+        <button id="button" onclick="HandlePress();">Submit</button>
+        <p class="two">This will provide your new nickname utilizing your LAST name.</p>
+      </body>
+    </html>
