@@ -30,6 +30,8 @@ const nickname = (req, res) => {
         //get response text
         // let synonyms = response.data.adjective.syn;
         // randsyn = synonyms[Math.floor(Math.random() * synonyms.length)];
+
+        //console.log(responses[0]); 
         randnsyn = getsyn(responses[0].data.noun.syn);
         console.log(req.body.fname + ", the " + randnsyn.toUpperCase());
 
@@ -37,8 +39,8 @@ const nickname = (req, res) => {
         // console.log(req.body.fname + ", the " + randnsyn.toUpperCase());        
 
         res.render('results', { title: "Nickname Results", 
-                                nickname: req.body.fname + " " + randnsyn.toUpperCase() + 
-                                          ", " + " " + req.body.lname});
+                                nickname: req.body.fname + " the " + randnsyn.toUpperCase() + 
+                                          ", " + req.body.lname});
     })
     .catch((error) => {
         //handle error
