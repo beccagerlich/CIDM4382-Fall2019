@@ -46,7 +46,7 @@ class Client {
         this.planned_depairport_lat = planned_depairport_lat;
         this.planned_depairport_lon = planned_depairport_lon;
         this.planned_destairport_lat = planned_destairport_lat;
-        this.planned_destairport_lon = planned_depairport_lon;
+        this.planned_destairport_lon = planned_destairport_lon;
         this.atis_message = atis_message;
         this.time_last_atis_received = time_last_atis_received;
         this.time_logon = time_logon;
