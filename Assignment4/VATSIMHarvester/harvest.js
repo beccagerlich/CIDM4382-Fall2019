@@ -111,6 +111,12 @@ const clientSchema = new Schema({
 
 const IsInARTCC = (client) => {
 
+    //use this method for filtering
+    //ifs, loops, arrays
+    if (planned_depairport == "KFLL")
+    {
+        console.log(`Is in`);
+    }
 }
 
 
@@ -332,7 +338,9 @@ const parseVATSIM = (data) => {
         } 
         
         if(!client.callsign.startsWith(";") && !client.callsign.startsWith(" ") && start){
-            
+            //add IsInARTCC here
+            IsInARTCC();
+            //add to list
             clientModelList.push(createClientModel(client));
             //console.log(`Callsign: ${client.callsign}`);
             
