@@ -47,7 +47,7 @@ class Client {
         this.planned_depairport_lat = planned_depairport_lat;
         this.planned_depairport_lon = planned_depairport_lon;
         this.planned_destairport_lat = planned_destairport_lat;
-        this.planned_destairport_lon = planned_destairport_lon;
+        this.planned_destairport_lon = planned_depairport_lon;
         this.atis_message = atis_message;
         this.time_last_atis_received = time_last_atis_received;
         this.time_logon = time_logon;
@@ -100,7 +100,7 @@ const clientSchema = new Schema({
     planned_depairport_lat: String,
     planned_depairport_lon: String,
     planned_destairport_lat: String,
-    planned_destairport_lon: String,
+    planned_depairport_lon: String,
     atis_message: String,
     time_last_atis_received: String,
     time_logon: String,
@@ -111,11 +111,43 @@ const clientSchema = new Schema({
 
 const IsInARTCC = (client) => {
 
-    //use this method for filtering
-    //ifs, loops, arrays
-    if (planned_depairport == "KFLL")
+    switch(client.planned_destairport || client.planned_destairport || client.planned_altairport)
     {
-        console.log(`Is in`);
+        //Class Bravo Airports
+        case "KMIA":
+        case "KTPA":
+        // Class Charlie Airports
+        case "KFLL":
+        case "KPBI":
+        case "KRSW":
+        case "KSRQ":
+        //Class Delta Airports
+        case "06FA":
+        case "KBCT":
+        case "KBKV": 
+        case "KBOW": 
+        case "KEYW": 
+        case "KFMY": 
+        case "KFPR":       
+        case "KFXE": 
+        case "KHST": 
+        case "KHWO":                  
+        case "KLAL": 
+        case "KMCF": 
+        case "KOPE": 
+        case "KNQX": 
+        case "KPGD": 
+        case "KPIE": 
+        case "KPMP": 
+        case "KSPG": 
+        case "KSUA": 
+        case "KTMB": 
+        case "KVRB": 
+            clientModelList.push(createClientModel(client));
+            console.log("Callsign: " + client.callsign 
+                + "\nPlanned Departure Airport: " + client.planned_depairport 
+                + "\nPlanned Destination Airport: " + client.planned_destairport 
+                + "\nPlanned Alternate Airport: " + client.planned_altairport);
     }
 }
 
@@ -125,7 +157,7 @@ const writeClientModelListToPersist = (client_list) => {
     const password = process.env.MONGODB_ATLAS_PWD;
 
     //this example uses ES6 template literals for string interpolation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-    const uri = `mongodb+srv://bngerlich:${password}@cluster0-yrfse.mongodb.net/vatsim?retryWrites=true&w=majority`;
+    const uri = `mongodb+srv://bngerlich:${password}@cluster0-yrfse.mongodb.net/test?retryWrites=true&w=majority`;
     mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 
     const Client = mongoose.model('Client', clientSchema);    
@@ -337,12 +369,10 @@ const parseVATSIM = (data) => {
             start = false;
         } 
         
-        if(!client.callsign.startsWith(";") && !client.callsign.startsWith(" ") && start){
-            //add IsInARTCC here
-            IsInARTCC();
-            //add to list
+        if(!client.callsign.startsWith(";") && !client.callsign.startsWith(" ") && start)
+        {
             clientModelList.push(createClientModel(client));
-            //console.log(`Callsign: ${client.callsign}`);
+            IsInARTCC(client) //or parts
             
         } 
 
