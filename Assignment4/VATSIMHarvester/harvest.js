@@ -111,7 +111,7 @@ const clientSchema = new Schema({
 
 const IsInARTCC = (client) => {
 
-    switch(client.planned_destairport || client.planned_destairport || client.planned_altairport)
+    switch(client.planned_destairport || client.planned_depairport || client.planned_altairport)
     {
         //Class Bravo Airports
         case "KMIA":
@@ -144,10 +144,7 @@ const IsInARTCC = (client) => {
         case "KTMB": 
         case "KVRB": 
             clientModelList.push(createClientModel(client));
-            console.log("Callsign: " + client.callsign 
-                + "\nPlanned Departure Airport: " + client.planned_depairport 
-                + "\nPlanned Destination Airport: " + client.planned_destairport 
-                + "\nPlanned Alternate Airport: " + client.planned_altairport);
+            console.log("Callsign: " + client.callsign + "has airport");
     }
 }
 
@@ -157,18 +154,24 @@ const writeClientModelListToPersist = (client_list) => {
     const password = process.env.MONGODB_ATLAS_PWD;
 
     //this example uses ES6 template literals for string interpolation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-    const uri = `mongodb+srv://bngerlich:${password}@cluster0-yrfse.mongodb.net/test?retryWrites=true&w=majority`;
+    const uri = `mongodb+srv://bngerlich:${password}@cluster0-yrfse.mongodb.net/vatsim?retryWrites=true&w=majority`;
     mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 
     const Client = mongoose.model('Client', clientSchema);    
-
+    
     //insert the most recent list - https://mongoosejs.com/docs/api/model.html#model_Model.insertMany
     Client.insertMany(client_list, (err, docs) => {
         console.log(`INSERTED: ${client_list.length} records`);
     })
 
+    //method for R-Get(like .find)
+    //method for U-Update it
+    //method for D-Delete it
+    
+
 }
 
+//create object instead of model?
 const createClientModel = (client) => {
     return {
         callsign: client.client,
@@ -371,9 +374,8 @@ const parseVATSIM = (data) => {
         
         if(!client.callsign.startsWith(";") && !client.callsign.startsWith(" ") && start)
         {
-            clientModelList.push(createClientModel(client));
-            IsInARTCC(client) //or parts
-            
+            //clientModelList.push(createClientModel(client));
+            //IsInARTCC()
         } 
 
         if(client.callsign.startsWith("!CLIENTS")){
@@ -382,13 +384,15 @@ const parseVATSIM = (data) => {
  
     });
 
+    
     console.log("WRITING TO DB " + new Date().toTimeString());    
     writeClientModelListToPersist(clientModelList);
+    
 
 };
 
 let task = cron.schedule('*/2 * * * *', () => {
-
+//
    axios.get('http://us.data.vatsim.net/vatsim-data.txt')
     .then( (response) => {
         parseVATSIM(response.data);
