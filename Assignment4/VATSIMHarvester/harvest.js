@@ -164,10 +164,10 @@ const writeClientModelListToPersist = (client_list) => {
         console.log(`INSERTED: ${client_list.length} records`);
     })
 
-    //method for R-Get(like .find)
-    //method for U-Update it
-    //method for D-Delete it
-    
+    //method for R-Get(like .find) -  Model.find()
+    //method for U-Update it -  Model.updateOne()
+    //method for D-Delete it -  Model.deleteOne()
+
 
 }
 
